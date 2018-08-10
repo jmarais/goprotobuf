@@ -1,0 +1,17 @@
+4 LR-1 conflicts: 
+	S71
+		symbol: ident
+			Reduce(123:MessageName : ident	<< X[0], nil >>)
+			Reduce(124:EnumName : ident	<< X[0], nil >>)
+	S163
+		symbol: ident
+			Reduce(123:MessageName : ident	<< X[0], nil >>)
+			Reduce(124:EnumName : ident	<< X[0], nil >>)
+	S235
+		symbol: >
+			Reduce(123:MessageName : ident	<< X[0], nil >>)
+			Reduce(124:EnumName : ident	<< X[0], nil >>)
+	S301
+		symbol: >
+			Reduce(123:MessageName : ident	<< X[0], nil >>)
+			Reduce(124:EnumName : ident	<< X[0], nil >>)

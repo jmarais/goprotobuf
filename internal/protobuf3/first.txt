@@ -1,0 +1,313 @@
+S': {
+	syntax
+}
+Proto: {
+	syntax
+}
+ProtoContents: {
+	emptyStatement
+	enum
+	import
+	message
+	option
+	package
+	service
+}
+ProtoContent: {
+	emptyStatement
+	enum
+	import
+	message
+	option
+	package
+	service
+}
+Syntax: {
+	syntax
+}
+Import: {
+	import
+}
+ImportState: {
+	public
+	weak
+}
+Package: {
+	package
+}
+Option: {
+	option
+}
+OptionName: {
+	(
+	ident
+}
+DotRepeatedIdents: {
+	.
+}
+TopLevelDef: {
+	enum
+	message
+	service
+}
+Type: {
+	.
+	bool
+	bytes
+	double
+	fixed32
+	fixed64
+	float
+	ident
+	int32
+	int64
+	sfixed32
+	sfixed64
+	sint32
+	sint64
+	string
+	uint32
+	uint64
+}
+FieldNumber: {
+	intLit
+}
+Field: {
+	.
+	bool
+	bytes
+	double
+	fixed32
+	fixed64
+	float
+	ident
+	int32
+	int64
+	repeated
+	sfixed32
+	sfixed64
+	sint32
+	sint64
+	string
+	uint32
+	uint64
+}
+FieldOptions: {
+	(
+	ident
+}
+FieldOption: {
+	(
+	ident
+}
+Oneof: {
+	oneof
+}
+RepeatedOneOfFieldOrEmpty: {
+	.
+	bool
+	bytes
+	double
+	emptyStatement
+	fixed32
+	fixed64
+	float
+	ident
+	int32
+	int64
+	sfixed32
+	sfixed64
+	sint32
+	sint64
+	string
+	uint32
+	uint64
+}
+OneofField: {
+	.
+	bool
+	bytes
+	double
+	fixed32
+	fixed64
+	float
+	ident
+	int32
+	int64
+	sfixed32
+	sfixed64
+	sint32
+	sint64
+	string
+	uint32
+	uint64
+}
+MapField: {
+	map
+}
+KeyType: {
+	bool
+	fixed32
+	fixed64
+	int32
+	int64
+	sfixed32
+	sfixed64
+	sint32
+	sint64
+	string
+	uint32
+	uint64
+}
+Reserved: {
+	reserved
+}
+Ranges: {
+	intLit
+}
+Range: {
+	intLit
+}
+FieldNames: {
+	ident
+}
+Enum: {
+	enum
+}
+EnumBody: {
+	{
+}
+EnumField: {
+	ident
+}
+EnumValueOptions: {
+	(
+	ident
+}
+EnumValueOption: {
+	(
+	ident
+}
+Message: {
+	message
+}
+MessageBody: {
+	.
+	bool
+	bytes
+	double
+	emptyStatement
+	enum
+	fixed32
+	fixed64
+	float
+	ident
+	int32
+	int64
+	map
+	message
+	oneof
+	option
+	repeated
+	reserved
+	sfixed32
+	sfixed64
+	sint32
+	sint64
+	string
+	uint32
+	uint64
+}
+MessageContent: {
+	.
+	bool
+	bytes
+	double
+	emptyStatement
+	enum
+	fixed32
+	fixed64
+	float
+	ident
+	int32
+	int64
+	map
+	message
+	oneof
+	option
+	repeated
+	reserved
+	sfixed32
+	sfixed64
+	sint32
+	sint64
+	string
+	uint32
+	uint64
+}
+Service: {
+	service
+}
+ServiceBodies: {
+	emptyStatement
+	option
+	rpc
+}
+ServiceBody: {
+	emptyStatement
+	option
+	rpc
+}
+Rpc: {
+	rpc
+}
+RpcBodies: {
+	;
+	{
+}
+RpcBody: {
+	emptyStatement
+	option
+}
+FullIdent: {
+	ident
+}
+MessageName: {
+	ident
+}
+EnumName: {
+	ident
+}
+FieldName: {
+	ident
+}
+OneofName: {
+	ident
+}
+MapName: {
+	ident
+}
+ServiceName: {
+	ident
+}
+RpcName: {
+	ident
+}
+MessageType: {
+	.
+	ident
+}
+Idents: {
+	ident
+}
+EnumType: {
+	.
+	ident
+}
+Constant: {
+	+
+	-
+	boolLit
+	ident
+	strLit
+}

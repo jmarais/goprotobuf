@@ -1,0 +1,4372 @@
+Item sets:
+S0{
+	ident : • _letter {_letter | _decimalDigit | '_'}
+	intLit : _decimalLit | _octalLit | • _hexLit
+	intLit : _decimalLit | • _octalLit | _hexLit
+	intLit : • _decimalLit | _octalLit | _hexLit
+	floatLit : (_decimals '.' [_decimals] [_exponent] | _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | • 'n' 'a' 'n'
+	floatLit : (_decimals '.' [_decimals] [_exponent] | _decimals _exponent | '.' _decimals [_exponent]) | • 'i' 'n' 'f' | 'n' 'a' 'n'
+	floatLit : (_decimals '.' [_decimals] [_exponent] | _decimals _exponent | • '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	floatLit : (_decimals '.' [_decimals] [_exponent] | • _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	floatLit : (• _decimals '.' [_decimals] [_exponent] | _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	boolLit : 't' 'r' 'u' 'e' | • 'f' 'a' 'l' 's' 'e'
+	boolLit : • 't' 'r' 'u' 'e' | 'f' 'a' 'l' 's' 'e'
+	strLit : (''' {_charValue} ''') | (• '"' {_charValue} '"')
+	strLit : (• ''' {_charValue} ''') | ('"' {_charValue} '"')
+	quote : ''' | • '"'
+	quote : • ''' | '"'
+	emptyStatement : • ';'
+	!comment : _line_comment | • _block_comment
+	!comment : • _line_comment | _block_comment
+	!whitespace : ' ' | '\t' | '\r' | • '\n'
+	!whitespace : ' ' | '\t' | • '\r' | '\n'
+	!whitespace : ' ' | • '\t' | '\r' | '\n'
+	!whitespace : • ' ' | '\t' | '\r' | '\n'
+	syntax : • 's' 'y' 'n' 't' 'a' 'x'
+	= : • '='
+	proto3 : • 'p' 'r' 'o' 't' 'o' '3'
+	; : • ';'
+	import : • 'i' 'm' 'p' 'o' 'r' 't'
+	weak : • 'w' 'e' 'a' 'k'
+	public : • 'p' 'u' 'b' 'l' 'i' 'c'
+	package : • 'p' 'a' 'c' 'k' 'a' 'g' 'e'
+	option : • 'o' 'p' 't' 'i' 'o' 'n'
+	( : • '('
+	) : • ')'
+	. : • '.'
+	double : • 'd' 'o' 'u' 'b' 'l' 'e'
+	float : • 'f' 'l' 'o' 'a' 't'
+	int32 : • 'i' 'n' 't' '3' '2'
+	int64 : • 'i' 'n' 't' '6' '4'
+	uint32 : • 'u' 'i' 'n' 't' '3' '2'
+	uint64 : • 'u' 'i' 'n' 't' '6' '4'
+	sint32 : • 's' 'i' 'n' 't' '3' '2'
+	sint64 : • 's' 'i' 'n' 't' '6' '4'
+	fixed32 : • 'f' 'i' 'x' 'e' 'd' '3' '2'
+	fixed64 : • 'f' 'i' 'x' 'e' 'd' '6' '4'
+	sfixed32 : • 's' 'f' 'i' 'x' 'e' 'd' '3' '2'
+	sfixed64 : • 's' 'f' 'i' 'x' 'e' 'd' '6' '4'
+	bool : • 'b' 'o' 'o' 'l'
+	string : • 's' 't' 'r' 'i' 'n' 'g'
+	bytes : • 'b' 'y' 't' 'e' 's'
+	[ : • '['
+	] : • ']'
+	repeated : • 'r' 'e' 'p' 'e' 'a' 't' 'e' 'd'
+	, : • ','
+	oneof : • 'o' 'n' 'e' 'o' 'f'
+	{ : • '{'
+	} : • '}'
+	map : • 'm' 'a' 'p'
+	< : • '<'
+	> : • '>'
+	reserved : • 'r' 'e' 's' 'e' 'r' 'v' 'e' 'd'
+	to : • 't' 'o'
+	max : • 'm' 'a' 'x'
+	enum : • 'e' 'n' 'u' 'm'
+	message : • 'm' 'e' 's' 's' 'a' 'g' 'e'
+	service : • 's' 'e' 'r' 'v' 'i' 'c' 'e'
+	rpc : • 'r' 'p' 'c'
+	returns : • 'r' 'e' 't' 'u' 'r' 'n' 's'
+	stream : • 's' 't' 'r' 'e' 'a' 'm'
+	- : • '-'
+	+ : • '+'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+	_hexLit : • '0' ('x' | 'X') _hexDigit {_hexDigit}
+	_octalLit : • '0' {_octalDigit}
+	_decimalLit : (•  '0'-'9') {_decimalDigit}
+	_decimals : • _decimalDigit {_decimalDigit}
+	_block_comment : • '/' '*' {. | '*'} '*' '/'
+	_line_comment : '/' '/' {.} '\n' | • '#' {.} '\n'
+	_line_comment : • '/' '/' {.} '\n' | '#' {.} '\n'
+	_decimalDigit : •  '0'-'9'
+}
+Transitions:
+	['\t','\t'] -> S1
+	['\n','\n'] -> S1
+	['\r','\r'] -> S1
+	[' ',' '] -> S1
+	['"','"'] -> S2
+	['#','#'] -> S3
+	[''','''] -> S4
+	['(','('] -> S5
+	[')',')'] -> S6
+	['+','+'] -> S7
+	[',',','] -> S8
+	['-','-'] -> S9
+	['.','.'] -> S10
+	['/','/'] -> S11
+	['0','0'] -> S12
+	['1','9'] -> S13
+	[';',';'] -> S14
+	['<','<'] -> S15
+	['=','='] -> S16
+	['>','>'] -> S17
+	['A','Z'] -> S18
+	['[','['] -> S19
+	[']',']'] -> S20
+	['a','a'] -> S18
+	['b','b'] -> S21
+	['c','c'] -> S18
+	['d','d'] -> S22
+	['e','e'] -> S23
+	['f','f'] -> S24
+	['g','h'] -> S18
+	['i','i'] -> S25
+	['j','l'] -> S18
+	['m','m'] -> S26
+	['n','n'] -> S27
+	['o','o'] -> S28
+	['p','p'] -> S29
+	['q','q'] -> S18
+	['r','r'] -> S30
+	['s','s'] -> S31
+	['t','t'] -> S32
+	['u','u'] -> S33
+	['v','v'] -> S18
+	['w','w'] -> S34
+	['x','z'] -> S18
+	['{','{'] -> S35
+	['}','}'] -> S36
+Action: nil
+Symbols classes: {['\t','\t'], ['\n','\n'], ['\r','\r'], [' ',' '], ['"','"'], ['#','#'], [''','''], ['(','('], [')',')'], ['+','+'], [',',','], ['-','-'], ['.','.'], ['/','/'], ['0','0'], ['1','9'], [';',';'], ['<','<'], ['=','='], ['>','>'], ['A','Z'], ['[','['], [']',']'], ['a','a'], ['b','b'], ['c','c'], ['d','d'], ['e','e'], ['f','f'], ['g','h'], ['i','i'], ['j','l'], ['m','m'], ['n','n'], ['o','o'], ['p','p'], ['q','q'], ['r','r'], ['s','s'], ['t','t'], ['u','u'], ['v','v'], ['w','w'], ['x','z'], ['{','{'], ['}','}']}
+
+S1{
+	!whitespace : (' ' | '\t' | '\r' | '\n') •
+}
+Transitions:
+Action: Ignore("!whitespace")
+Symbols classes: {}
+
+S2{
+	strLit : (''' {_charValue} ''') | ('"' {_charValue} • '"')
+	strLit : (''' {_charValue} ''') | ('"' {• _charValue} '"')
+	quote : (''' | '"') •
+	_charValue : _hexEscape | _octEscape | • _charEscape
+	_charValue : _hexEscape | • _octEscape | _charEscape
+	_charValue : • _hexEscape | _octEscape | _charEscape
+	_charEscape : • '\' ('a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\' | ''' | '"')
+	_octEscape : • '\' _octalDigit _octalDigit _octalDigit
+	_hexEscape : • '\' ('x' | 'X') _hexDigit _hexDigit
+}
+Transitions:
+	['"','"'] -> S37
+	['\','\'] -> S38
+Action: Accept("quote")
+Symbols classes: {['"','"'], ['\','\']}
+
+S3{
+	_line_comment : '/' '/' {.} '\n' | '#' {.} • '\n'
+	_line_comment : '/' '/' {.} '\n' | '#' {• .} '\n'
+	!comment : • _line_comment | _block_comment
+}
+Transitions:
+	['\n','\n'] -> S39
+. -> S3
+Action: nil
+Symbols classes: {['\n','\n']}
+
+S4{
+	strLit : (''' {_charValue} • ''') | ('"' {_charValue} '"')
+	strLit : (''' {• _charValue} ''') | ('"' {_charValue} '"')
+	quote : (''' | '"') •
+	_charValue : _hexEscape | _octEscape | • _charEscape
+	_charValue : _hexEscape | • _octEscape | _charEscape
+	_charValue : • _hexEscape | _octEscape | _charEscape
+	_charEscape : • '\' ('a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\' | ''' | '"')
+	_octEscape : • '\' _octalDigit _octalDigit _octalDigit
+	_hexEscape : • '\' ('x' | 'X') _hexDigit _hexDigit
+}
+Transitions:
+	[''','''] -> S37
+	['\','\'] -> S40
+Action: Accept("quote")
+Symbols classes: {[''','''], ['\','\']}
+
+S5{
+	( : '(' •
+}
+Transitions:
+Action: Accept("(")
+Symbols classes: {}
+
+S6{
+	) : ')' •
+}
+Transitions:
+Action: Accept(")")
+Symbols classes: {}
+
+S7{
+	+ : '+' •
+}
+Transitions:
+Action: Accept("+")
+Symbols classes: {}
+
+S8{
+	, : ',' •
+}
+Transitions:
+Action: Accept(",")
+Symbols classes: {}
+
+S9{
+	- : '-' •
+}
+Transitions:
+Action: Accept("-")
+Symbols classes: {}
+
+S10{
+	floatLit : (_decimals '.' [_decimals] [_exponent] | _decimals _exponent | '.' • _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	. : '.' •
+	_decimals : • _decimalDigit {_decimalDigit}
+	_decimalDigit : •  '0'-'9'
+}
+Transitions:
+	['0','9'] -> S41
+Action: Accept(".")
+Symbols classes: {['0','9']}
+
+S11{
+	_block_comment : '/' • '*' {. | '*'} '*' '/'
+	_line_comment : '/' • '/' {.} '\n' | '#' {.} '\n'
+	!comment : _line_comment | • _block_comment
+	!comment : • _line_comment | _block_comment
+}
+Transitions:
+	['*','*'] -> S42
+	['/','/'] -> S43
+Action: nil
+Symbols classes: {['*','*'], ['/','/']}
+
+S12{
+	_hexLit : '0' ('x' | • 'X') _hexDigit {_hexDigit}
+	_hexLit : '0' (• 'x' | 'X') _hexDigit {_hexDigit}
+	_octalLit : '0' {_octalDigit} •
+	_octalLit : '0' {• _octalDigit}
+	_decimalLit : ( '0'-'9') {_decimalDigit} •
+	_decimalLit : ( '0'-'9') {• _decimalDigit}
+	_decimalDigit :  '0'-'9' •
+	intLit : _decimalLit | _octalLit | • _hexLit
+	intLit : (_decimalLit | _octalLit | _hexLit) •
+	intLit : _decimalLit | • _octalLit | _hexLit
+	intLit : • _decimalLit | _octalLit | _hexLit
+	_decimals : _decimalDigit {_decimalDigit} •
+	_decimals : _decimalDigit {• _decimalDigit}
+	floatLit : (_decimals '.' [_decimals] [_exponent] | _decimals • _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	floatLit : (_decimals • '.' [_decimals] [_exponent] | _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	floatLit : (_decimals '.' [_decimals] [_exponent] | • _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	floatLit : (• _decimals '.' [_decimals] [_exponent] | _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	_octalDigit : •  '0'-'7'
+	_decimalDigit : •  '0'-'9'
+	_exponent : ('e' | • 'E') ['+' | '-'] _decimals
+	_exponent : (• 'e' | 'E') ['+' | '-'] _decimals
+}
+Transitions:
+	['.','.'] -> S44
+	['0','7'] -> S45
+	['8','9'] -> S13
+	['E','E'] -> S46
+	['X','X'] -> S47
+	['e','e'] -> S46
+	['x','x'] -> S47
+Action: Accept("intLit")
+Symbols classes: {['.','.'], ['0','7'], ['8','9'], ['E','E'], ['X','X'], ['e','e'], ['x','x']}
+
+S13{
+	_decimalLit : ( '0'-'9') {_decimalDigit} •
+	_decimalLit : ( '0'-'9') {• _decimalDigit}
+	_decimalDigit :  '0'-'9' •
+	intLit : (_decimalLit | _octalLit | _hexLit) •
+	intLit : • _decimalLit | _octalLit | _hexLit
+	_decimals : _decimalDigit {_decimalDigit} •
+	_decimals : _decimalDigit {• _decimalDigit}
+	floatLit : (_decimals '.' [_decimals] [_exponent] | _decimals • _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	floatLit : (_decimals • '.' [_decimals] [_exponent] | _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	floatLit : (_decimals '.' [_decimals] [_exponent] | • _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	floatLit : (• _decimals '.' [_decimals] [_exponent] | _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	_decimalDigit : •  '0'-'9'
+	_exponent : ('e' | • 'E') ['+' | '-'] _decimals
+	_exponent : (• 'e' | 'E') ['+' | '-'] _decimals
+}
+Transitions:
+	['.','.'] -> S44
+	['0','9'] -> S13
+	['E','E'] -> S46
+	['e','e'] -> S46
+Action: Accept("intLit")
+Symbols classes: {['.','.'], ['0','9'], ['E','E'], ['e','e']}
+
+S14{
+	emptyStatement : ';' •
+	; : ';' •
+}
+Transitions:
+Action: Accept(";")
+Symbols classes: {}
+
+S15{
+	< : '<' •
+}
+Transitions:
+Action: Accept("<")
+Symbols classes: {}
+
+S16{
+	= : '=' •
+}
+Transitions:
+Action: Accept("=")
+Symbols classes: {}
+
+S17{
+	> : '>' •
+}
+Transitions:
+Action: Accept(">")
+Symbols classes: {}
+
+S18{
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S19{
+	[ : '[' •
+}
+Transitions:
+Action: Accept("[")
+Symbols classes: {}
+
+S20{
+	] : ']' •
+}
+Transitions:
+Action: Accept("]")
+Symbols classes: {}
+
+S21{
+	bool : 'b' • 'o' 'o' 'l'
+	bytes : 'b' • 'y' 't' 'e' 's'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','n'] -> S18
+	['o','o'] -> S50
+	['p','x'] -> S18
+	['y','y'] -> S51
+	['z','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','n'], ['o','o'], ['p','x'], ['y','y'], ['z','z']}
+
+S22{
+	double : 'd' • 'o' 'u' 'b' 'l' 'e'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','n'] -> S18
+	['o','o'] -> S52
+	['p','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','n'], ['o','o'], ['p','z']}
+
+S23{
+	enum : 'e' • 'n' 'u' 'm'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','m'] -> S18
+	['n','n'] -> S53
+	['o','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','m'], ['n','n'], ['o','z']}
+
+S24{
+	boolLit : 't' 'r' 'u' 'e' | 'f' • 'a' 'l' 's' 'e'
+	float : 'f' • 'l' 'o' 'a' 't'
+	fixed32 : 'f' • 'i' 'x' 'e' 'd' '3' '2'
+	fixed64 : 'f' • 'i' 'x' 'e' 'd' '6' '4'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','a'] -> S54
+	['b','h'] -> S18
+	['i','i'] -> S55
+	['j','k'] -> S18
+	['l','l'] -> S56
+	['m','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','a'], ['b','h'], ['i','i'], ['j','k'], ['l','l'], ['m','z']}
+
+S25{
+	floatLit : (_decimals '.' [_decimals] [_exponent] | _decimals _exponent | '.' _decimals [_exponent]) | 'i' • 'n' 'f' | 'n' 'a' 'n'
+	import : 'i' • 'm' 'p' 'o' 'r' 't'
+	int32 : 'i' • 'n' 't' '3' '2'
+	int64 : 'i' • 'n' 't' '6' '4'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','l'] -> S18
+	['m','m'] -> S57
+	['n','n'] -> S58
+	['o','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','l'], ['m','m'], ['n','n'], ['o','z']}
+
+S26{
+	map : 'm' • 'a' 'p'
+	max : 'm' • 'a' 'x'
+	message : 'm' • 'e' 's' 's' 'a' 'g' 'e'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','a'] -> S59
+	['b','d'] -> S18
+	['e','e'] -> S60
+	['f','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','a'], ['b','d'], ['e','e'], ['f','z']}
+
+S27{
+	floatLit : (_decimals '.' [_decimals] [_exponent] | _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' • 'a' 'n'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','a'] -> S61
+	['b','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','a'], ['b','z']}
+
+S28{
+	option : 'o' • 'p' 't' 'i' 'o' 'n'
+	oneof : 'o' • 'n' 'e' 'o' 'f'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','m'] -> S18
+	['n','n'] -> S62
+	['o','o'] -> S18
+	['p','p'] -> S63
+	['q','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','m'], ['n','n'], ['o','o'], ['p','p'], ['q','z']}
+
+S29{
+	proto3 : 'p' • 'r' 'o' 't' 'o' '3'
+	public : 'p' • 'u' 'b' 'l' 'i' 'c'
+	package : 'p' • 'a' 'c' 'k' 'a' 'g' 'e'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','a'] -> S64
+	['b','q'] -> S18
+	['r','r'] -> S65
+	['s','t'] -> S18
+	['u','u'] -> S66
+	['v','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','a'], ['b','q'], ['r','r'], ['s','t'], ['u','u'], ['v','z']}
+
+S30{
+	repeated : 'r' • 'e' 'p' 'e' 'a' 't' 'e' 'd'
+	reserved : 'r' • 'e' 's' 'e' 'r' 'v' 'e' 'd'
+	rpc : 'r' • 'p' 'c'
+	returns : 'r' • 'e' 't' 'u' 'r' 'n' 's'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','d'] -> S18
+	['e','e'] -> S67
+	['f','o'] -> S18
+	['p','p'] -> S68
+	['q','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','d'], ['e','e'], ['f','o'], ['p','p'], ['q','z']}
+
+S31{
+	syntax : 's' • 'y' 'n' 't' 'a' 'x'
+	sint32 : 's' • 'i' 'n' 't' '3' '2'
+	sint64 : 's' • 'i' 'n' 't' '6' '4'
+	sfixed32 : 's' • 'f' 'i' 'x' 'e' 'd' '3' '2'
+	sfixed64 : 's' • 'f' 'i' 'x' 'e' 'd' '6' '4'
+	string : 's' • 't' 'r' 'i' 'n' 'g'
+	service : 's' • 'e' 'r' 'v' 'i' 'c' 'e'
+	stream : 's' • 't' 'r' 'e' 'a' 'm'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','d'] -> S18
+	['e','e'] -> S69
+	['f','f'] -> S70
+	['g','h'] -> S18
+	['i','i'] -> S71
+	['j','s'] -> S18
+	['t','t'] -> S72
+	['u','x'] -> S18
+	['y','y'] -> S73
+	['z','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','d'], ['e','e'], ['f','f'], ['g','h'], ['i','i'], ['j','s'], ['t','t'], ['u','x'], ['y','y'], ['z','z']}
+
+S32{
+	boolLit : 't' • 'r' 'u' 'e' | 'f' 'a' 'l' 's' 'e'
+	to : 't' • 'o'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','n'] -> S18
+	['o','o'] -> S74
+	['p','q'] -> S18
+	['r','r'] -> S75
+	['s','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','n'], ['o','o'], ['p','q'], ['r','r'], ['s','z']}
+
+S33{
+	uint32 : 'u' • 'i' 'n' 't' '3' '2'
+	uint64 : 'u' • 'i' 'n' 't' '6' '4'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','h'] -> S18
+	['i','i'] -> S76
+	['j','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','h'], ['i','i'], ['j','z']}
+
+S34{
+	weak : 'w' • 'e' 'a' 'k'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','d'] -> S18
+	['e','e'] -> S77
+	['f','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','d'], ['e','e'], ['f','z']}
+
+S35{
+	{ : '{' •
+}
+Transitions:
+Action: Accept("{")
+Symbols classes: {}
+
+S36{
+	} : '}' •
+}
+Transitions:
+Action: Accept("}")
+Symbols classes: {}
+
+S37{
+	strLit : ((''' {_charValue} ''') | ('"' {_charValue} '"')) •
+}
+Transitions:
+Action: Accept("strLit")
+Symbols classes: {}
+
+S38{
+	_charEscape : '\' ('a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\' | ''' | • '"')
+	_charEscape : '\' ('a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\' | • ''' | '"')
+	_charEscape : '\' ('a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | • '\' | ''' | '"')
+	_charEscape : '\' ('a' | 'b' | 'f' | 'n' | 'r' | 't' | • 'v' | '\' | ''' | '"')
+	_charEscape : '\' ('a' | 'b' | 'f' | 'n' | 'r' | • 't' | 'v' | '\' | ''' | '"')
+	_charEscape : '\' ('a' | 'b' | 'f' | 'n' | • 'r' | 't' | 'v' | '\' | ''' | '"')
+	_charEscape : '\' ('a' | 'b' | 'f' | • 'n' | 'r' | 't' | 'v' | '\' | ''' | '"')
+	_charEscape : '\' ('a' | 'b' | • 'f' | 'n' | 'r' | 't' | 'v' | '\' | ''' | '"')
+	_charEscape : '\' ('a' | • 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\' | ''' | '"')
+	_charEscape : '\' (• 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\' | ''' | '"')
+	_octEscape : '\' • _octalDigit _octalDigit _octalDigit
+	_hexEscape : '\' ('x' | • 'X') _hexDigit _hexDigit
+	_hexEscape : '\' (• 'x' | 'X') _hexDigit _hexDigit
+	_charValue : _hexEscape | _octEscape | • _charEscape
+	_charValue : _hexEscape | • _octEscape | _charEscape
+	_charValue : • _hexEscape | _octEscape | _charEscape
+	strLit : (''' {_charValue} ''') | ('"' {• _charValue} '"')
+	_octalDigit : •  '0'-'7'
+}
+Transitions:
+	['"','"'] -> S78
+	[''','''] -> S78
+	['0','7'] -> S79
+	['X','X'] -> S80
+	['\','\'] -> S78
+	['a','a'] -> S78
+	['b','b'] -> S78
+	['f','f'] -> S78
+	['n','n'] -> S78
+	['r','r'] -> S78
+	['t','t'] -> S78
+	['v','v'] -> S78
+	['x','x'] -> S80
+Action: nil
+Symbols classes: {['"','"'], [''','''], ['0','7'], ['X','X'], ['\','\'], ['a','a'], ['b','b'], ['f','f'], ['n','n'], ['r','r'], ['t','t'], ['v','v'], ['x','x']}
+
+S39{
+	_line_comment : ('/' '/' {.} '\n' | '#' {.} '\n') •
+	!comment : (_line_comment | _block_comment) •
+}
+Transitions:
+Action: Ignore("!comment")
+Symbols classes: {}
+
+S40{
+	_charEscape : '\' ('a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\' | ''' | • '"')
+	_charEscape : '\' ('a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\' | • ''' | '"')
+	_charEscape : '\' ('a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | • '\' | ''' | '"')
+	_charEscape : '\' ('a' | 'b' | 'f' | 'n' | 'r' | 't' | • 'v' | '\' | ''' | '"')
+	_charEscape : '\' ('a' | 'b' | 'f' | 'n' | 'r' | • 't' | 'v' | '\' | ''' | '"')
+	_charEscape : '\' ('a' | 'b' | 'f' | 'n' | • 'r' | 't' | 'v' | '\' | ''' | '"')
+	_charEscape : '\' ('a' | 'b' | 'f' | • 'n' | 'r' | 't' | 'v' | '\' | ''' | '"')
+	_charEscape : '\' ('a' | 'b' | • 'f' | 'n' | 'r' | 't' | 'v' | '\' | ''' | '"')
+	_charEscape : '\' ('a' | • 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\' | ''' | '"')
+	_charEscape : '\' (• 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\' | ''' | '"')
+	_octEscape : '\' • _octalDigit _octalDigit _octalDigit
+	_hexEscape : '\' ('x' | • 'X') _hexDigit _hexDigit
+	_hexEscape : '\' (• 'x' | 'X') _hexDigit _hexDigit
+	_charValue : _hexEscape | _octEscape | • _charEscape
+	_charValue : _hexEscape | • _octEscape | _charEscape
+	_charValue : • _hexEscape | _octEscape | _charEscape
+	strLit : (''' {• _charValue} ''') | ('"' {_charValue} '"')
+	_octalDigit : •  '0'-'7'
+}
+Transitions:
+	['"','"'] -> S81
+	[''','''] -> S81
+	['0','7'] -> S82
+	['X','X'] -> S83
+	['\','\'] -> S81
+	['a','a'] -> S81
+	['b','b'] -> S81
+	['f','f'] -> S81
+	['n','n'] -> S81
+	['r','r'] -> S81
+	['t','t'] -> S81
+	['v','v'] -> S81
+	['x','x'] -> S83
+Action: nil
+Symbols classes: {['"','"'], [''','''], ['0','7'], ['X','X'], ['\','\'], ['a','a'], ['b','b'], ['f','f'], ['n','n'], ['r','r'], ['t','t'], ['v','v'], ['x','x']}
+
+S41{
+	_decimalDigit :  '0'-'9' •
+	_decimals : _decimalDigit {_decimalDigit} •
+	_decimals : _decimalDigit {• _decimalDigit}
+	floatLit : ((_decimals '.' [_decimals] [_exponent] | _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n') •
+	floatLit : (_decimals '.' [_decimals] [_exponent] | _decimals _exponent | '.' _decimals [• _exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	floatLit : (_decimals '.' [_decimals] [_exponent] | _decimals _exponent | '.' • _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	_decimalDigit : •  '0'-'9'
+	_exponent : ('e' | • 'E') ['+' | '-'] _decimals
+	_exponent : (• 'e' | 'E') ['+' | '-'] _decimals
+}
+Transitions:
+	['0','9'] -> S41
+	['E','E'] -> S84
+	['e','e'] -> S84
+Action: Accept("floatLit")
+Symbols classes: {['0','9'], ['E','E'], ['e','e']}
+
+S42{
+	_block_comment : '/' '*' {. | '*'} • '*' '/'
+	_block_comment : '/' '*' {. | • '*'} '*' '/'
+	_block_comment : '/' '*' {• . | '*'} '*' '/'
+	!comment : _line_comment | • _block_comment
+}
+Transitions:
+	['*','*'] -> S85
+. -> S42
+Action: nil
+Symbols classes: {['*','*']}
+
+S43{
+	_line_comment : '/' '/' {.} • '\n' | '#' {.} '\n'
+	_line_comment : '/' '/' {• .} '\n' | '#' {.} '\n'
+	!comment : • _line_comment | _block_comment
+}
+Transitions:
+	['\n','\n'] -> S39
+. -> S43
+Action: nil
+Symbols classes: {['\n','\n']}
+
+S44{
+	floatLit : ((_decimals '.' [_decimals] [_exponent] | _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n') •
+	floatLit : (_decimals '.' [_decimals] [• _exponent] | _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	floatLit : (_decimals '.' [• _decimals] [_exponent] | _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	_exponent : ('e' | • 'E') ['+' | '-'] _decimals
+	_exponent : (• 'e' | 'E') ['+' | '-'] _decimals
+	_decimals : • _decimalDigit {_decimalDigit}
+	_decimalDigit : •  '0'-'9'
+}
+Transitions:
+	['0','9'] -> S86
+	['E','E'] -> S87
+	['e','e'] -> S87
+Action: Accept("floatLit")
+Symbols classes: {['0','9'], ['E','E'], ['e','e']}
+
+S45{
+	_octalDigit :  '0'-'7' •
+	_decimalDigit :  '0'-'9' •
+	_octalLit : '0' {_octalDigit} •
+	_octalLit : '0' {• _octalDigit}
+	_decimalLit : ( '0'-'9') {_decimalDigit} •
+	_decimalLit : ( '0'-'9') {• _decimalDigit}
+	_decimals : _decimalDigit {_decimalDigit} •
+	_decimals : _decimalDigit {• _decimalDigit}
+	intLit : (_decimalLit | _octalLit | _hexLit) •
+	intLit : _decimalLit | • _octalLit | _hexLit
+	intLit : • _decimalLit | _octalLit | _hexLit
+	floatLit : (_decimals '.' [_decimals] [_exponent] | _decimals • _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	floatLit : (_decimals • '.' [_decimals] [_exponent] | _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	floatLit : (_decimals '.' [_decimals] [_exponent] | • _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	floatLit : (• _decimals '.' [_decimals] [_exponent] | _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	_octalDigit : •  '0'-'7'
+	_decimalDigit : •  '0'-'9'
+	_exponent : ('e' | • 'E') ['+' | '-'] _decimals
+	_exponent : (• 'e' | 'E') ['+' | '-'] _decimals
+}
+Transitions:
+	['.','.'] -> S44
+	['0','7'] -> S45
+	['8','9'] -> S13
+	['E','E'] -> S46
+	['e','e'] -> S46
+Action: Accept("intLit")
+Symbols classes: {['.','.'], ['0','7'], ['8','9'], ['E','E'], ['e','e']}
+
+S46{
+	_exponent : ('e' | 'E') ['+' | '-'] • _decimals
+	_exponent : ('e' | 'E') ['+' | • '-'] _decimals
+	_exponent : ('e' | 'E') [• '+' | '-'] _decimals
+	floatLit : (_decimals '.' [_decimals] [_exponent] | _decimals • _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	_decimals : • _decimalDigit {_decimalDigit}
+	_decimalDigit : •  '0'-'9'
+}
+Transitions:
+	['+','+'] -> S88
+	['-','-'] -> S88
+	['0','9'] -> S89
+Action: nil
+Symbols classes: {['+','+'], ['-','-'], ['0','9']}
+
+S47{
+	_hexLit : '0' ('x' | 'X') • _hexDigit {_hexDigit}
+	intLit : _decimalLit | _octalLit | • _hexLit
+	_hexDigit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
+	_hexDigit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
+	_hexDigit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
+}
+Transitions:
+	['0','9'] -> S90
+	['A','F'] -> S90
+	['a','f'] -> S90
+Action: nil
+Symbols classes: {['0','9'], ['A','F'], ['a','f']}
+
+S48{
+	_decimalDigit :  '0'-'9' •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S49{
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S50{
+	bool : 'b' 'o' • 'o' 'l'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','n'] -> S18
+	['o','o'] -> S91
+	['p','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','n'], ['o','o'], ['p','z']}
+
+S51{
+	bytes : 'b' 'y' • 't' 'e' 's'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','s'] -> S18
+	['t','t'] -> S92
+	['u','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','s'], ['t','t'], ['u','z']}
+
+S52{
+	double : 'd' 'o' • 'u' 'b' 'l' 'e'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','t'] -> S18
+	['u','u'] -> S93
+	['v','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','t'], ['u','u'], ['v','z']}
+
+S53{
+	enum : 'e' 'n' • 'u' 'm'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','t'] -> S18
+	['u','u'] -> S94
+	['v','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','t'], ['u','u'], ['v','z']}
+
+S54{
+	boolLit : 't' 'r' 'u' 'e' | 'f' 'a' • 'l' 's' 'e'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','k'] -> S18
+	['l','l'] -> S95
+	['m','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','k'], ['l','l'], ['m','z']}
+
+S55{
+	fixed32 : 'f' 'i' • 'x' 'e' 'd' '3' '2'
+	fixed64 : 'f' 'i' • 'x' 'e' 'd' '6' '4'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','w'] -> S18
+	['x','x'] -> S96
+	['y','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','w'], ['x','x'], ['y','z']}
+
+S56{
+	float : 'f' 'l' • 'o' 'a' 't'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','n'] -> S18
+	['o','o'] -> S97
+	['p','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','n'], ['o','o'], ['p','z']}
+
+S57{
+	import : 'i' 'm' • 'p' 'o' 'r' 't'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','o'] -> S18
+	['p','p'] -> S98
+	['q','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','o'], ['p','p'], ['q','z']}
+
+S58{
+	floatLit : (_decimals '.' [_decimals] [_exponent] | _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' • 'f' | 'n' 'a' 'n'
+	int32 : 'i' 'n' • 't' '3' '2'
+	int64 : 'i' 'n' • 't' '6' '4'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','e'] -> S18
+	['f','f'] -> S99
+	['g','s'] -> S18
+	['t','t'] -> S100
+	['u','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','e'], ['f','f'], ['g','s'], ['t','t'], ['u','z']}
+
+S59{
+	map : 'm' 'a' • 'p'
+	max : 'm' 'a' • 'x'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','o'] -> S18
+	['p','p'] -> S101
+	['q','w'] -> S18
+	['x','x'] -> S102
+	['y','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','o'], ['p','p'], ['q','w'], ['x','x'], ['y','z']}
+
+S60{
+	message : 'm' 'e' • 's' 's' 'a' 'g' 'e'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','r'] -> S18
+	['s','s'] -> S103
+	['t','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','r'], ['s','s'], ['t','z']}
+
+S61{
+	floatLit : (_decimals '.' [_decimals] [_exponent] | _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' • 'n'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','m'] -> S18
+	['n','n'] -> S99
+	['o','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','m'], ['n','n'], ['o','z']}
+
+S62{
+	oneof : 'o' 'n' • 'e' 'o' 'f'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','d'] -> S18
+	['e','e'] -> S104
+	['f','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','d'], ['e','e'], ['f','z']}
+
+S63{
+	option : 'o' 'p' • 't' 'i' 'o' 'n'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','s'] -> S18
+	['t','t'] -> S105
+	['u','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','s'], ['t','t'], ['u','z']}
+
+S64{
+	package : 'p' 'a' • 'c' 'k' 'a' 'g' 'e'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','b'] -> S18
+	['c','c'] -> S106
+	['d','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','b'], ['c','c'], ['d','z']}
+
+S65{
+	proto3 : 'p' 'r' • 'o' 't' 'o' '3'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','n'] -> S18
+	['o','o'] -> S107
+	['p','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','n'], ['o','o'], ['p','z']}
+
+S66{
+	public : 'p' 'u' • 'b' 'l' 'i' 'c'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','a'] -> S18
+	['b','b'] -> S108
+	['c','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','a'], ['b','b'], ['c','z']}
+
+S67{
+	repeated : 'r' 'e' • 'p' 'e' 'a' 't' 'e' 'd'
+	reserved : 'r' 'e' • 's' 'e' 'r' 'v' 'e' 'd'
+	returns : 'r' 'e' • 't' 'u' 'r' 'n' 's'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','o'] -> S18
+	['p','p'] -> S109
+	['q','r'] -> S18
+	['s','s'] -> S110
+	['t','t'] -> S111
+	['u','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','o'], ['p','p'], ['q','r'], ['s','s'], ['t','t'], ['u','z']}
+
+S68{
+	rpc : 'r' 'p' • 'c'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','b'] -> S18
+	['c','c'] -> S112
+	['d','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','b'], ['c','c'], ['d','z']}
+
+S69{
+	service : 's' 'e' • 'r' 'v' 'i' 'c' 'e'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','q'] -> S18
+	['r','r'] -> S113
+	['s','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','q'], ['r','r'], ['s','z']}
+
+S70{
+	sfixed32 : 's' 'f' • 'i' 'x' 'e' 'd' '3' '2'
+	sfixed64 : 's' 'f' • 'i' 'x' 'e' 'd' '6' '4'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','h'] -> S18
+	['i','i'] -> S114
+	['j','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','h'], ['i','i'], ['j','z']}
+
+S71{
+	sint32 : 's' 'i' • 'n' 't' '3' '2'
+	sint64 : 's' 'i' • 'n' 't' '6' '4'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','m'] -> S18
+	['n','n'] -> S115
+	['o','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','m'], ['n','n'], ['o','z']}
+
+S72{
+	string : 's' 't' • 'r' 'i' 'n' 'g'
+	stream : 's' 't' • 'r' 'e' 'a' 'm'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','q'] -> S18
+	['r','r'] -> S116
+	['s','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','q'], ['r','r'], ['s','z']}
+
+S73{
+	syntax : 's' 'y' • 'n' 't' 'a' 'x'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','m'] -> S18
+	['n','n'] -> S117
+	['o','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','m'], ['n','n'], ['o','z']}
+
+S74{
+	to : 't' 'o' •
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("to")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S75{
+	boolLit : 't' 'r' • 'u' 'e' | 'f' 'a' 'l' 's' 'e'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','t'] -> S18
+	['u','u'] -> S118
+	['v','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','t'], ['u','u'], ['v','z']}
+
+S76{
+	uint32 : 'u' 'i' • 'n' 't' '3' '2'
+	uint64 : 'u' 'i' • 'n' 't' '6' '4'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','m'] -> S18
+	['n','n'] -> S119
+	['o','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','m'], ['n','n'], ['o','z']}
+
+S77{
+	weak : 'w' 'e' • 'a' 'k'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','a'] -> S120
+	['b','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','a'], ['b','z']}
+
+S78{
+	_charEscape : '\' ('a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\' | ''' | '"') •
+	_charValue : (_hexEscape | _octEscape | _charEscape) •
+	strLit : (''' {_charValue} ''') | ('"' {_charValue} • '"')
+	strLit : (''' {_charValue} ''') | ('"' {• _charValue} '"')
+	_charValue : _hexEscape | _octEscape | • _charEscape
+	_charValue : _hexEscape | • _octEscape | _charEscape
+	_charValue : • _hexEscape | _octEscape | _charEscape
+	_charEscape : • '\' ('a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\' | ''' | '"')
+	_octEscape : • '\' _octalDigit _octalDigit _octalDigit
+	_hexEscape : • '\' ('x' | 'X') _hexDigit _hexDigit
+}
+Transitions:
+	['"','"'] -> S37
+	['\','\'] -> S38
+Action: nil
+Symbols classes: {['"','"'], ['\','\']}
+
+S79{
+	_octalDigit :  '0'-'7' •
+	_octEscape : '\' _octalDigit • _octalDigit _octalDigit
+	_charValue : _hexEscape | • _octEscape | _charEscape
+	strLit : (''' {_charValue} ''') | ('"' {• _charValue} '"')
+	_octalDigit : •  '0'-'7'
+}
+Transitions:
+	['0','7'] -> S121
+Action: nil
+Symbols classes: {['0','7']}
+
+S80{
+	_hexEscape : '\' ('x' | 'X') • _hexDigit _hexDigit
+	_charValue : • _hexEscape | _octEscape | _charEscape
+	strLit : (''' {_charValue} ''') | ('"' {• _charValue} '"')
+	_hexDigit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
+	_hexDigit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
+	_hexDigit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
+}
+Transitions:
+	['0','9'] -> S122
+	['A','F'] -> S122
+	['a','f'] -> S122
+Action: nil
+Symbols classes: {['0','9'], ['A','F'], ['a','f']}
+
+S81{
+	_charEscape : '\' ('a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\' | ''' | '"') •
+	_charValue : (_hexEscape | _octEscape | _charEscape) •
+	strLit : (''' {_charValue} • ''') | ('"' {_charValue} '"')
+	strLit : (''' {• _charValue} ''') | ('"' {_charValue} '"')
+	_charValue : _hexEscape | _octEscape | • _charEscape
+	_charValue : _hexEscape | • _octEscape | _charEscape
+	_charValue : • _hexEscape | _octEscape | _charEscape
+	_charEscape : • '\' ('a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\' | ''' | '"')
+	_octEscape : • '\' _octalDigit _octalDigit _octalDigit
+	_hexEscape : • '\' ('x' | 'X') _hexDigit _hexDigit
+}
+Transitions:
+	[''','''] -> S37
+	['\','\'] -> S40
+Action: nil
+Symbols classes: {[''','''], ['\','\']}
+
+S82{
+	_octalDigit :  '0'-'7' •
+	_octEscape : '\' _octalDigit • _octalDigit _octalDigit
+	_charValue : _hexEscape | • _octEscape | _charEscape
+	strLit : (''' {• _charValue} ''') | ('"' {_charValue} '"')
+	_octalDigit : •  '0'-'7'
+}
+Transitions:
+	['0','7'] -> S123
+Action: nil
+Symbols classes: {['0','7']}
+
+S83{
+	_hexEscape : '\' ('x' | 'X') • _hexDigit _hexDigit
+	_charValue : • _hexEscape | _octEscape | _charEscape
+	strLit : (''' {• _charValue} ''') | ('"' {_charValue} '"')
+	_hexDigit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
+	_hexDigit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
+	_hexDigit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
+}
+Transitions:
+	['0','9'] -> S124
+	['A','F'] -> S124
+	['a','f'] -> S124
+Action: nil
+Symbols classes: {['0','9'], ['A','F'], ['a','f']}
+
+S84{
+	_exponent : ('e' | 'E') ['+' | '-'] • _decimals
+	_exponent : ('e' | 'E') ['+' | • '-'] _decimals
+	_exponent : ('e' | 'E') [• '+' | '-'] _decimals
+	floatLit : (_decimals '.' [_decimals] [_exponent] | _decimals _exponent | '.' _decimals [• _exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	_decimals : • _decimalDigit {_decimalDigit}
+	_decimalDigit : •  '0'-'9'
+}
+Transitions:
+	['+','+'] -> S125
+	['-','-'] -> S125
+	['0','9'] -> S126
+Action: nil
+Symbols classes: {['+','+'], ['-','-'], ['0','9']}
+
+S85{
+	_block_comment : '/' '*' {. | '*'} '*' • '/'
+	_block_comment : '/' '*' {. | '*'} • '*' '/'
+	_block_comment : '/' '*' {. | • '*'} '*' '/'
+	_block_comment : '/' '*' {• . | '*'} '*' '/'
+	!comment : _line_comment | • _block_comment
+}
+Transitions:
+	['*','*'] -> S85
+	['/','/'] -> S127
+. -> S42
+Action: nil
+Symbols classes: {['*','*'], ['/','/']}
+
+S86{
+	_decimalDigit :  '0'-'9' •
+	_decimals : _decimalDigit {_decimalDigit} •
+	_decimals : _decimalDigit {• _decimalDigit}
+	floatLit : ((_decimals '.' [_decimals] [_exponent] | _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n') •
+	floatLit : (_decimals '.' [_decimals] [• _exponent] | _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	floatLit : (_decimals '.' [• _decimals] [_exponent] | _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	_decimalDigit : •  '0'-'9'
+	_exponent : ('e' | • 'E') ['+' | '-'] _decimals
+	_exponent : (• 'e' | 'E') ['+' | '-'] _decimals
+}
+Transitions:
+	['0','9'] -> S86
+	['E','E'] -> S87
+	['e','e'] -> S87
+Action: Accept("floatLit")
+Symbols classes: {['0','9'], ['E','E'], ['e','e']}
+
+S87{
+	_exponent : ('e' | 'E') ['+' | '-'] • _decimals
+	_exponent : ('e' | 'E') ['+' | • '-'] _decimals
+	_exponent : ('e' | 'E') [• '+' | '-'] _decimals
+	floatLit : (_decimals '.' [_decimals] [• _exponent] | _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	_decimals : • _decimalDigit {_decimalDigit}
+	_decimalDigit : •  '0'-'9'
+}
+Transitions:
+	['+','+'] -> S128
+	['-','-'] -> S128
+	['0','9'] -> S129
+Action: nil
+Symbols classes: {['+','+'], ['-','-'], ['0','9']}
+
+S88{
+	_exponent : ('e' | 'E') ['+' | '-'] • _decimals
+	floatLit : (_decimals '.' [_decimals] [_exponent] | _decimals • _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	_decimals : • _decimalDigit {_decimalDigit}
+	_decimalDigit : •  '0'-'9'
+}
+Transitions:
+	['0','9'] -> S89
+Action: nil
+Symbols classes: {['0','9']}
+
+S89{
+	_decimalDigit :  '0'-'9' •
+	_decimals : _decimalDigit {_decimalDigit} •
+	_decimals : _decimalDigit {• _decimalDigit}
+	_exponent : ('e' | 'E') ['+' | '-'] _decimals •
+	_exponent : ('e' | 'E') ['+' | '-'] • _decimals
+	floatLit : ((_decimals '.' [_decimals] [_exponent] | _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n') •
+	floatLit : (_decimals '.' [_decimals] [_exponent] | _decimals • _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	_decimalDigit : •  '0'-'9'
+}
+Transitions:
+	['0','9'] -> S89
+Action: Accept("floatLit")
+Symbols classes: {['0','9']}
+
+S90{
+	_hexDigit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
+	_hexLit : '0' ('x' | 'X') _hexDigit {_hexDigit} •
+	_hexLit : '0' ('x' | 'X') _hexDigit {• _hexDigit}
+	intLit : (_decimalLit | _octalLit | _hexLit) •
+	intLit : _decimalLit | _octalLit | • _hexLit
+	_hexDigit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
+	_hexDigit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
+	_hexDigit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
+}
+Transitions:
+	['0','9'] -> S90
+	['A','F'] -> S90
+	['a','f'] -> S90
+Action: Accept("intLit")
+Symbols classes: {['0','9'], ['A','F'], ['a','f']}
+
+S91{
+	bool : 'b' 'o' 'o' • 'l'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','k'] -> S18
+	['l','l'] -> S130
+	['m','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','k'], ['l','l'], ['m','z']}
+
+S92{
+	bytes : 'b' 'y' 't' • 'e' 's'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','d'] -> S18
+	['e','e'] -> S131
+	['f','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','d'], ['e','e'], ['f','z']}
+
+S93{
+	double : 'd' 'o' 'u' • 'b' 'l' 'e'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','a'] -> S18
+	['b','b'] -> S132
+	['c','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','a'], ['b','b'], ['c','z']}
+
+S94{
+	enum : 'e' 'n' 'u' • 'm'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','l'] -> S18
+	['m','m'] -> S133
+	['n','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','l'], ['m','m'], ['n','z']}
+
+S95{
+	boolLit : 't' 'r' 'u' 'e' | 'f' 'a' 'l' • 's' 'e'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','r'] -> S18
+	['s','s'] -> S134
+	['t','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','r'], ['s','s'], ['t','z']}
+
+S96{
+	fixed32 : 'f' 'i' 'x' • 'e' 'd' '3' '2'
+	fixed64 : 'f' 'i' 'x' • 'e' 'd' '6' '4'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','d'] -> S18
+	['e','e'] -> S135
+	['f','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','d'], ['e','e'], ['f','z']}
+
+S97{
+	float : 'f' 'l' 'o' • 'a' 't'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','a'] -> S136
+	['b','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','a'], ['b','z']}
+
+S98{
+	import : 'i' 'm' 'p' • 'o' 'r' 't'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','n'] -> S18
+	['o','o'] -> S137
+	['p','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','n'], ['o','o'], ['p','z']}
+
+S99{
+	floatLit : ((_decimals '.' [_decimals] [_exponent] | _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n') •
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S100{
+	int32 : 'i' 'n' 't' • '3' '2'
+	int64 : 'i' 'n' 't' • '6' '4'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','2'] -> S48
+	['3','3'] -> S138
+	['4','5'] -> S48
+	['6','6'] -> S139
+	['7','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','2'], ['3','3'], ['4','5'], ['6','6'], ['7','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S101{
+	map : 'm' 'a' 'p' •
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("map")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S102{
+	max : 'm' 'a' 'x' •
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("max")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S103{
+	message : 'm' 'e' 's' • 's' 'a' 'g' 'e'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','r'] -> S18
+	['s','s'] -> S140
+	['t','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','r'], ['s','s'], ['t','z']}
+
+S104{
+	oneof : 'o' 'n' 'e' • 'o' 'f'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','n'] -> S18
+	['o','o'] -> S141
+	['p','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','n'], ['o','o'], ['p','z']}
+
+S105{
+	option : 'o' 'p' 't' • 'i' 'o' 'n'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','h'] -> S18
+	['i','i'] -> S142
+	['j','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','h'], ['i','i'], ['j','z']}
+
+S106{
+	package : 'p' 'a' 'c' • 'k' 'a' 'g' 'e'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','j'] -> S18
+	['k','k'] -> S143
+	['l','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','j'], ['k','k'], ['l','z']}
+
+S107{
+	proto3 : 'p' 'r' 'o' • 't' 'o' '3'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','s'] -> S18
+	['t','t'] -> S144
+	['u','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','s'], ['t','t'], ['u','z']}
+
+S108{
+	public : 'p' 'u' 'b' • 'l' 'i' 'c'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','k'] -> S18
+	['l','l'] -> S145
+	['m','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','k'], ['l','l'], ['m','z']}
+
+S109{
+	repeated : 'r' 'e' 'p' • 'e' 'a' 't' 'e' 'd'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','d'] -> S18
+	['e','e'] -> S146
+	['f','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','d'], ['e','e'], ['f','z']}
+
+S110{
+	reserved : 'r' 'e' 's' • 'e' 'r' 'v' 'e' 'd'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','d'] -> S18
+	['e','e'] -> S147
+	['f','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','d'], ['e','e'], ['f','z']}
+
+S111{
+	returns : 'r' 'e' 't' • 'u' 'r' 'n' 's'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','t'] -> S18
+	['u','u'] -> S148
+	['v','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','t'], ['u','u'], ['v','z']}
+
+S112{
+	rpc : 'r' 'p' 'c' •
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("rpc")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S113{
+	service : 's' 'e' 'r' • 'v' 'i' 'c' 'e'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','u'] -> S18
+	['v','v'] -> S149
+	['w','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','u'], ['v','v'], ['w','z']}
+
+S114{
+	sfixed32 : 's' 'f' 'i' • 'x' 'e' 'd' '3' '2'
+	sfixed64 : 's' 'f' 'i' • 'x' 'e' 'd' '6' '4'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','w'] -> S18
+	['x','x'] -> S150
+	['y','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','w'], ['x','x'], ['y','z']}
+
+S115{
+	sint32 : 's' 'i' 'n' • 't' '3' '2'
+	sint64 : 's' 'i' 'n' • 't' '6' '4'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','s'] -> S18
+	['t','t'] -> S151
+	['u','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','s'], ['t','t'], ['u','z']}
+
+S116{
+	string : 's' 't' 'r' • 'i' 'n' 'g'
+	stream : 's' 't' 'r' • 'e' 'a' 'm'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','d'] -> S18
+	['e','e'] -> S152
+	['f','h'] -> S18
+	['i','i'] -> S153
+	['j','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','d'], ['e','e'], ['f','h'], ['i','i'], ['j','z']}
+
+S117{
+	syntax : 's' 'y' 'n' • 't' 'a' 'x'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','s'] -> S18
+	['t','t'] -> S154
+	['u','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','s'], ['t','t'], ['u','z']}
+
+S118{
+	boolLit : 't' 'r' 'u' • 'e' | 'f' 'a' 'l' 's' 'e'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','d'] -> S18
+	['e','e'] -> S155
+	['f','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','d'], ['e','e'], ['f','z']}
+
+S119{
+	uint32 : 'u' 'i' 'n' • 't' '3' '2'
+	uint64 : 'u' 'i' 'n' • 't' '6' '4'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','s'] -> S18
+	['t','t'] -> S156
+	['u','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','s'], ['t','t'], ['u','z']}
+
+S120{
+	weak : 'w' 'e' 'a' • 'k'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','j'] -> S18
+	['k','k'] -> S157
+	['l','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','j'], ['k','k'], ['l','z']}
+
+S121{
+	_octalDigit :  '0'-'7' •
+	_octEscape : '\' _octalDigit _octalDigit • _octalDigit
+	_charValue : _hexEscape | • _octEscape | _charEscape
+	strLit : (''' {_charValue} ''') | ('"' {• _charValue} '"')
+	_octalDigit : •  '0'-'7'
+}
+Transitions:
+	['0','7'] -> S158
+Action: nil
+Symbols classes: {['0','7']}
+
+S122{
+	_hexDigit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
+	_hexEscape : '\' ('x' | 'X') _hexDigit • _hexDigit
+	_charValue : • _hexEscape | _octEscape | _charEscape
+	strLit : (''' {_charValue} ''') | ('"' {• _charValue} '"')
+	_hexDigit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
+	_hexDigit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
+	_hexDigit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
+}
+Transitions:
+	['0','9'] -> S159
+	['A','F'] -> S159
+	['a','f'] -> S159
+Action: nil
+Symbols classes: {['0','9'], ['A','F'], ['a','f']}
+
+S123{
+	_octalDigit :  '0'-'7' •
+	_octEscape : '\' _octalDigit _octalDigit • _octalDigit
+	_charValue : _hexEscape | • _octEscape | _charEscape
+	strLit : (''' {• _charValue} ''') | ('"' {_charValue} '"')
+	_octalDigit : •  '0'-'7'
+}
+Transitions:
+	['0','7'] -> S160
+Action: nil
+Symbols classes: {['0','7']}
+
+S124{
+	_hexDigit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
+	_hexEscape : '\' ('x' | 'X') _hexDigit • _hexDigit
+	_charValue : • _hexEscape | _octEscape | _charEscape
+	strLit : (''' {• _charValue} ''') | ('"' {_charValue} '"')
+	_hexDigit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
+	_hexDigit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
+	_hexDigit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
+}
+Transitions:
+	['0','9'] -> S161
+	['A','F'] -> S161
+	['a','f'] -> S161
+Action: nil
+Symbols classes: {['0','9'], ['A','F'], ['a','f']}
+
+S125{
+	_exponent : ('e' | 'E') ['+' | '-'] • _decimals
+	floatLit : (_decimals '.' [_decimals] [_exponent] | _decimals _exponent | '.' _decimals [• _exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	_decimals : • _decimalDigit {_decimalDigit}
+	_decimalDigit : •  '0'-'9'
+}
+Transitions:
+	['0','9'] -> S126
+Action: nil
+Symbols classes: {['0','9']}
+
+S126{
+	_decimalDigit :  '0'-'9' •
+	_decimals : _decimalDigit {_decimalDigit} •
+	_decimals : _decimalDigit {• _decimalDigit}
+	_exponent : ('e' | 'E') ['+' | '-'] _decimals •
+	_exponent : ('e' | 'E') ['+' | '-'] • _decimals
+	floatLit : ((_decimals '.' [_decimals] [_exponent] | _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n') •
+	floatLit : (_decimals '.' [_decimals] [_exponent] | _decimals _exponent | '.' _decimals [• _exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	_decimalDigit : •  '0'-'9'
+}
+Transitions:
+	['0','9'] -> S126
+Action: Accept("floatLit")
+Symbols classes: {['0','9']}
+
+S127{
+	_block_comment : '/' '*' {. | '*'} '*' '/' •
+	!comment : (_line_comment | _block_comment) •
+}
+Transitions:
+Action: Ignore("!comment")
+Symbols classes: {}
+
+S128{
+	_exponent : ('e' | 'E') ['+' | '-'] • _decimals
+	floatLit : (_decimals '.' [_decimals] [• _exponent] | _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	_decimals : • _decimalDigit {_decimalDigit}
+	_decimalDigit : •  '0'-'9'
+}
+Transitions:
+	['0','9'] -> S129
+Action: nil
+Symbols classes: {['0','9']}
+
+S129{
+	_decimalDigit :  '0'-'9' •
+	_decimals : _decimalDigit {_decimalDigit} •
+	_decimals : _decimalDigit {• _decimalDigit}
+	_exponent : ('e' | 'E') ['+' | '-'] _decimals •
+	_exponent : ('e' | 'E') ['+' | '-'] • _decimals
+	floatLit : ((_decimals '.' [_decimals] [_exponent] | _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n') •
+	floatLit : (_decimals '.' [_decimals] [• _exponent] | _decimals _exponent | '.' _decimals [_exponent]) | 'i' 'n' 'f' | 'n' 'a' 'n'
+	_decimalDigit : •  '0'-'9'
+}
+Transitions:
+	['0','9'] -> S129
+Action: Accept("floatLit")
+Symbols classes: {['0','9']}
+
+S130{
+	bool : 'b' 'o' 'o' 'l' •
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("bool")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S131{
+	bytes : 'b' 'y' 't' 'e' • 's'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','r'] -> S18
+	['s','s'] -> S162
+	['t','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','r'], ['s','s'], ['t','z']}
+
+S132{
+	double : 'd' 'o' 'u' 'b' • 'l' 'e'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','k'] -> S18
+	['l','l'] -> S163
+	['m','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','k'], ['l','l'], ['m','z']}
+
+S133{
+	enum : 'e' 'n' 'u' 'm' •
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("enum")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S134{
+	boolLit : 't' 'r' 'u' 'e' | 'f' 'a' 'l' 's' • 'e'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','d'] -> S18
+	['e','e'] -> S155
+	['f','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','d'], ['e','e'], ['f','z']}
+
+S135{
+	fixed32 : 'f' 'i' 'x' 'e' • 'd' '3' '2'
+	fixed64 : 'f' 'i' 'x' 'e' • 'd' '6' '4'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','c'] -> S18
+	['d','d'] -> S164
+	['e','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','c'], ['d','d'], ['e','z']}
+
+S136{
+	float : 'f' 'l' 'o' 'a' • 't'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','s'] -> S18
+	['t','t'] -> S165
+	['u','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','s'], ['t','t'], ['u','z']}
+
+S137{
+	import : 'i' 'm' 'p' 'o' • 'r' 't'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','q'] -> S18
+	['r','r'] -> S166
+	['s','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','q'], ['r','r'], ['s','z']}
+
+S138{
+	int32 : 'i' 'n' 't' '3' • '2'
+	_decimalDigit :  '0'-'9' •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','1'] -> S48
+	['2','2'] -> S167
+	['3','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','1'], ['2','2'], ['3','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S139{
+	int64 : 'i' 'n' 't' '6' • '4'
+	_decimalDigit :  '0'-'9' •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','3'] -> S48
+	['4','4'] -> S168
+	['5','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','3'], ['4','4'], ['5','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S140{
+	message : 'm' 'e' 's' 's' • 'a' 'g' 'e'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','a'] -> S169
+	['b','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','a'], ['b','z']}
+
+S141{
+	oneof : 'o' 'n' 'e' 'o' • 'f'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','e'] -> S18
+	['f','f'] -> S170
+	['g','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','e'], ['f','f'], ['g','z']}
+
+S142{
+	option : 'o' 'p' 't' 'i' • 'o' 'n'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','n'] -> S18
+	['o','o'] -> S171
+	['p','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','n'], ['o','o'], ['p','z']}
+
+S143{
+	package : 'p' 'a' 'c' 'k' • 'a' 'g' 'e'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','a'] -> S172
+	['b','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','a'], ['b','z']}
+
+S144{
+	proto3 : 'p' 'r' 'o' 't' • 'o' '3'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','n'] -> S18
+	['o','o'] -> S173
+	['p','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','n'], ['o','o'], ['p','z']}
+
+S145{
+	public : 'p' 'u' 'b' 'l' • 'i' 'c'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','h'] -> S18
+	['i','i'] -> S174
+	['j','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','h'], ['i','i'], ['j','z']}
+
+S146{
+	repeated : 'r' 'e' 'p' 'e' • 'a' 't' 'e' 'd'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','a'] -> S175
+	['b','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','a'], ['b','z']}
+
+S147{
+	reserved : 'r' 'e' 's' 'e' • 'r' 'v' 'e' 'd'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','q'] -> S18
+	['r','r'] -> S176
+	['s','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','q'], ['r','r'], ['s','z']}
+
+S148{
+	returns : 'r' 'e' 't' 'u' • 'r' 'n' 's'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','q'] -> S18
+	['r','r'] -> S177
+	['s','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','q'], ['r','r'], ['s','z']}
+
+S149{
+	service : 's' 'e' 'r' 'v' • 'i' 'c' 'e'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','h'] -> S18
+	['i','i'] -> S178
+	['j','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','h'], ['i','i'], ['j','z']}
+
+S150{
+	sfixed32 : 's' 'f' 'i' 'x' • 'e' 'd' '3' '2'
+	sfixed64 : 's' 'f' 'i' 'x' • 'e' 'd' '6' '4'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','d'] -> S18
+	['e','e'] -> S179
+	['f','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','d'], ['e','e'], ['f','z']}
+
+S151{
+	sint32 : 's' 'i' 'n' 't' • '3' '2'
+	sint64 : 's' 'i' 'n' 't' • '6' '4'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','2'] -> S48
+	['3','3'] -> S180
+	['4','5'] -> S48
+	['6','6'] -> S181
+	['7','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','2'], ['3','3'], ['4','5'], ['6','6'], ['7','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S152{
+	stream : 's' 't' 'r' 'e' • 'a' 'm'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','a'] -> S182
+	['b','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','a'], ['b','z']}
+
+S153{
+	string : 's' 't' 'r' 'i' • 'n' 'g'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','m'] -> S18
+	['n','n'] -> S183
+	['o','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','m'], ['n','n'], ['o','z']}
+
+S154{
+	syntax : 's' 'y' 'n' 't' • 'a' 'x'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','a'] -> S184
+	['b','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','a'], ['b','z']}
+
+S155{
+	boolLit : ('t' 'r' 'u' 'e' | 'f' 'a' 'l' 's' 'e') •
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S156{
+	uint32 : 'u' 'i' 'n' 't' • '3' '2'
+	uint64 : 'u' 'i' 'n' 't' • '6' '4'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','2'] -> S48
+	['3','3'] -> S185
+	['4','5'] -> S48
+	['6','6'] -> S186
+	['7','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','2'], ['3','3'], ['4','5'], ['6','6'], ['7','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S157{
+	weak : 'w' 'e' 'a' 'k' •
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("weak")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S158{
+	_octalDigit :  '0'-'7' •
+	_octEscape : '\' _octalDigit _octalDigit _octalDigit •
+	_charValue : (_hexEscape | _octEscape | _charEscape) •
+	strLit : (''' {_charValue} ''') | ('"' {_charValue} • '"')
+	strLit : (''' {_charValue} ''') | ('"' {• _charValue} '"')
+	_charValue : _hexEscape | _octEscape | • _charEscape
+	_charValue : _hexEscape | • _octEscape | _charEscape
+	_charValue : • _hexEscape | _octEscape | _charEscape
+	_charEscape : • '\' ('a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\' | ''' | '"')
+	_octEscape : • '\' _octalDigit _octalDigit _octalDigit
+	_hexEscape : • '\' ('x' | 'X') _hexDigit _hexDigit
+}
+Transitions:
+	['"','"'] -> S37
+	['\','\'] -> S38
+Action: nil
+Symbols classes: {['"','"'], ['\','\']}
+
+S159{
+	_hexDigit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
+	_hexEscape : '\' ('x' | 'X') _hexDigit _hexDigit •
+	_charValue : (_hexEscape | _octEscape | _charEscape) •
+	strLit : (''' {_charValue} ''') | ('"' {_charValue} • '"')
+	strLit : (''' {_charValue} ''') | ('"' {• _charValue} '"')
+	_charValue : _hexEscape | _octEscape | • _charEscape
+	_charValue : _hexEscape | • _octEscape | _charEscape
+	_charValue : • _hexEscape | _octEscape | _charEscape
+	_charEscape : • '\' ('a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\' | ''' | '"')
+	_octEscape : • '\' _octalDigit _octalDigit _octalDigit
+	_hexEscape : • '\' ('x' | 'X') _hexDigit _hexDigit
+}
+Transitions:
+	['"','"'] -> S37
+	['\','\'] -> S38
+Action: nil
+Symbols classes: {['"','"'], ['\','\']}
+
+S160{
+	_octalDigit :  '0'-'7' •
+	_octEscape : '\' _octalDigit _octalDigit _octalDigit •
+	_charValue : (_hexEscape | _octEscape | _charEscape) •
+	strLit : (''' {_charValue} • ''') | ('"' {_charValue} '"')
+	strLit : (''' {• _charValue} ''') | ('"' {_charValue} '"')
+	_charValue : _hexEscape | _octEscape | • _charEscape
+	_charValue : _hexEscape | • _octEscape | _charEscape
+	_charValue : • _hexEscape | _octEscape | _charEscape
+	_charEscape : • '\' ('a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\' | ''' | '"')
+	_octEscape : • '\' _octalDigit _octalDigit _octalDigit
+	_hexEscape : • '\' ('x' | 'X') _hexDigit _hexDigit
+}
+Transitions:
+	[''','''] -> S37
+	['\','\'] -> S40
+Action: nil
+Symbols classes: {[''','''], ['\','\']}
+
+S161{
+	_hexDigit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
+	_hexEscape : '\' ('x' | 'X') _hexDigit _hexDigit •
+	_charValue : (_hexEscape | _octEscape | _charEscape) •
+	strLit : (''' {_charValue} • ''') | ('"' {_charValue} '"')
+	strLit : (''' {• _charValue} ''') | ('"' {_charValue} '"')
+	_charValue : _hexEscape | _octEscape | • _charEscape
+	_charValue : _hexEscape | • _octEscape | _charEscape
+	_charValue : • _hexEscape | _octEscape | _charEscape
+	_charEscape : • '\' ('a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\' | ''' | '"')
+	_octEscape : • '\' _octalDigit _octalDigit _octalDigit
+	_hexEscape : • '\' ('x' | 'X') _hexDigit _hexDigit
+}
+Transitions:
+	[''','''] -> S37
+	['\','\'] -> S40
+Action: nil
+Symbols classes: {[''','''], ['\','\']}
+
+S162{
+	bytes : 'b' 'y' 't' 'e' 's' •
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("bytes")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S163{
+	double : 'd' 'o' 'u' 'b' 'l' • 'e'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','d'] -> S18
+	['e','e'] -> S187
+	['f','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','d'], ['e','e'], ['f','z']}
+
+S164{
+	fixed32 : 'f' 'i' 'x' 'e' 'd' • '3' '2'
+	fixed64 : 'f' 'i' 'x' 'e' 'd' • '6' '4'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','2'] -> S48
+	['3','3'] -> S188
+	['4','5'] -> S48
+	['6','6'] -> S189
+	['7','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','2'], ['3','3'], ['4','5'], ['6','6'], ['7','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S165{
+	float : 'f' 'l' 'o' 'a' 't' •
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("float")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S166{
+	import : 'i' 'm' 'p' 'o' 'r' • 't'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','s'] -> S18
+	['t','t'] -> S190
+	['u','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','s'], ['t','t'], ['u','z']}
+
+S167{
+	int32 : 'i' 'n' 't' '3' '2' •
+	_decimalDigit :  '0'-'9' •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("int32")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S168{
+	int64 : 'i' 'n' 't' '6' '4' •
+	_decimalDigit :  '0'-'9' •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("int64")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S169{
+	message : 'm' 'e' 's' 's' 'a' • 'g' 'e'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','f'] -> S18
+	['g','g'] -> S191
+	['h','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','f'], ['g','g'], ['h','z']}
+
+S170{
+	oneof : 'o' 'n' 'e' 'o' 'f' •
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("oneof")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S171{
+	option : 'o' 'p' 't' 'i' 'o' • 'n'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','m'] -> S18
+	['n','n'] -> S192
+	['o','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','m'], ['n','n'], ['o','z']}
+
+S172{
+	package : 'p' 'a' 'c' 'k' 'a' • 'g' 'e'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','f'] -> S18
+	['g','g'] -> S193
+	['h','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','f'], ['g','g'], ['h','z']}
+
+S173{
+	proto3 : 'p' 'r' 'o' 't' 'o' • '3'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','2'] -> S48
+	['3','3'] -> S194
+	['4','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','2'], ['3','3'], ['4','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S174{
+	public : 'p' 'u' 'b' 'l' 'i' • 'c'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','b'] -> S18
+	['c','c'] -> S195
+	['d','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','b'], ['c','c'], ['d','z']}
+
+S175{
+	repeated : 'r' 'e' 'p' 'e' 'a' • 't' 'e' 'd'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','s'] -> S18
+	['t','t'] -> S196
+	['u','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','s'], ['t','t'], ['u','z']}
+
+S176{
+	reserved : 'r' 'e' 's' 'e' 'r' • 'v' 'e' 'd'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','u'] -> S18
+	['v','v'] -> S197
+	['w','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','u'], ['v','v'], ['w','z']}
+
+S177{
+	returns : 'r' 'e' 't' 'u' 'r' • 'n' 's'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','m'] -> S18
+	['n','n'] -> S198
+	['o','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','m'], ['n','n'], ['o','z']}
+
+S178{
+	service : 's' 'e' 'r' 'v' 'i' • 'c' 'e'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','b'] -> S18
+	['c','c'] -> S199
+	['d','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','b'], ['c','c'], ['d','z']}
+
+S179{
+	sfixed32 : 's' 'f' 'i' 'x' 'e' • 'd' '3' '2'
+	sfixed64 : 's' 'f' 'i' 'x' 'e' • 'd' '6' '4'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','c'] -> S18
+	['d','d'] -> S200
+	['e','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','c'], ['d','d'], ['e','z']}
+
+S180{
+	sint32 : 's' 'i' 'n' 't' '3' • '2'
+	_decimalDigit :  '0'-'9' •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','1'] -> S48
+	['2','2'] -> S201
+	['3','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','1'], ['2','2'], ['3','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S181{
+	sint64 : 's' 'i' 'n' 't' '6' • '4'
+	_decimalDigit :  '0'-'9' •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','3'] -> S48
+	['4','4'] -> S202
+	['5','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','3'], ['4','4'], ['5','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S182{
+	stream : 's' 't' 'r' 'e' 'a' • 'm'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','l'] -> S18
+	['m','m'] -> S203
+	['n','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','l'], ['m','m'], ['n','z']}
+
+S183{
+	string : 's' 't' 'r' 'i' 'n' • 'g'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','f'] -> S18
+	['g','g'] -> S204
+	['h','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','f'], ['g','g'], ['h','z']}
+
+S184{
+	syntax : 's' 'y' 'n' 't' 'a' • 'x'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','w'] -> S18
+	['x','x'] -> S205
+	['y','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','w'], ['x','x'], ['y','z']}
+
+S185{
+	uint32 : 'u' 'i' 'n' 't' '3' • '2'
+	_decimalDigit :  '0'-'9' •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','1'] -> S48
+	['2','2'] -> S206
+	['3','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','1'], ['2','2'], ['3','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S186{
+	uint64 : 'u' 'i' 'n' 't' '6' • '4'
+	_decimalDigit :  '0'-'9' •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','3'] -> S48
+	['4','4'] -> S207
+	['5','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','3'], ['4','4'], ['5','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S187{
+	double : 'd' 'o' 'u' 'b' 'l' 'e' •
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("double")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S188{
+	fixed32 : 'f' 'i' 'x' 'e' 'd' '3' • '2'
+	_decimalDigit :  '0'-'9' •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','1'] -> S48
+	['2','2'] -> S208
+	['3','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','1'], ['2','2'], ['3','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S189{
+	fixed64 : 'f' 'i' 'x' 'e' 'd' '6' • '4'
+	_decimalDigit :  '0'-'9' •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','3'] -> S48
+	['4','4'] -> S209
+	['5','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','3'], ['4','4'], ['5','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S190{
+	import : 'i' 'm' 'p' 'o' 'r' 't' •
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("import")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S191{
+	message : 'm' 'e' 's' 's' 'a' 'g' • 'e'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','d'] -> S18
+	['e','e'] -> S210
+	['f','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','d'], ['e','e'], ['f','z']}
+
+S192{
+	option : 'o' 'p' 't' 'i' 'o' 'n' •
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("option")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S193{
+	package : 'p' 'a' 'c' 'k' 'a' 'g' • 'e'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','d'] -> S18
+	['e','e'] -> S211
+	['f','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','d'], ['e','e'], ['f','z']}
+
+S194{
+	proto3 : 'p' 'r' 'o' 't' 'o' '3' •
+	_decimalDigit :  '0'-'9' •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("proto3")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S195{
+	public : 'p' 'u' 'b' 'l' 'i' 'c' •
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("public")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S196{
+	repeated : 'r' 'e' 'p' 'e' 'a' 't' • 'e' 'd'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','d'] -> S18
+	['e','e'] -> S212
+	['f','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','d'], ['e','e'], ['f','z']}
+
+S197{
+	reserved : 'r' 'e' 's' 'e' 'r' 'v' • 'e' 'd'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','d'] -> S18
+	['e','e'] -> S213
+	['f','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','d'], ['e','e'], ['f','z']}
+
+S198{
+	returns : 'r' 'e' 't' 'u' 'r' 'n' • 's'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','r'] -> S18
+	['s','s'] -> S214
+	['t','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','r'], ['s','s'], ['t','z']}
+
+S199{
+	service : 's' 'e' 'r' 'v' 'i' 'c' • 'e'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','d'] -> S18
+	['e','e'] -> S215
+	['f','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','d'], ['e','e'], ['f','z']}
+
+S200{
+	sfixed32 : 's' 'f' 'i' 'x' 'e' 'd' • '3' '2'
+	sfixed64 : 's' 'f' 'i' 'x' 'e' 'd' • '6' '4'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','2'] -> S48
+	['3','3'] -> S216
+	['4','5'] -> S48
+	['6','6'] -> S217
+	['7','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','2'], ['3','3'], ['4','5'], ['6','6'], ['7','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S201{
+	sint32 : 's' 'i' 'n' 't' '3' '2' •
+	_decimalDigit :  '0'-'9' •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("sint32")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S202{
+	sint64 : 's' 'i' 'n' 't' '6' '4' •
+	_decimalDigit :  '0'-'9' •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("sint64")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S203{
+	stream : 's' 't' 'r' 'e' 'a' 'm' •
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("stream")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S204{
+	string : 's' 't' 'r' 'i' 'n' 'g' •
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("string")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S205{
+	syntax : 's' 'y' 'n' 't' 'a' 'x' •
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("syntax")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S206{
+	uint32 : 'u' 'i' 'n' 't' '3' '2' •
+	_decimalDigit :  '0'-'9' •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("uint32")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S207{
+	uint64 : 'u' 'i' 'n' 't' '6' '4' •
+	_decimalDigit :  '0'-'9' •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("uint64")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S208{
+	fixed32 : 'f' 'i' 'x' 'e' 'd' '3' '2' •
+	_decimalDigit :  '0'-'9' •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("fixed32")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S209{
+	fixed64 : 'f' 'i' 'x' 'e' 'd' '6' '4' •
+	_decimalDigit :  '0'-'9' •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("fixed64")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S210{
+	message : 'm' 'e' 's' 's' 'a' 'g' 'e' •
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("message")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S211{
+	package : 'p' 'a' 'c' 'k' 'a' 'g' 'e' •
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("package")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S212{
+	repeated : 'r' 'e' 'p' 'e' 'a' 't' 'e' • 'd'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','c'] -> S18
+	['d','d'] -> S218
+	['e','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','c'], ['d','d'], ['e','z']}
+
+S213{
+	reserved : 'r' 'e' 's' 'e' 'r' 'v' 'e' • 'd'
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','c'] -> S18
+	['d','d'] -> S219
+	['e','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','c'], ['d','d'], ['e','z']}
+
+S214{
+	returns : 'r' 'e' 't' 'u' 'r' 'n' 's' •
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("returns")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S215{
+	service : 's' 'e' 'r' 'v' 'i' 'c' 'e' •
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("service")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S216{
+	sfixed32 : 's' 'f' 'i' 'x' 'e' 'd' '3' • '2'
+	_decimalDigit :  '0'-'9' •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','1'] -> S48
+	['2','2'] -> S220
+	['3','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','1'], ['2','2'], ['3','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S217{
+	sfixed64 : 's' 'f' 'i' 'x' 'e' 'd' '6' • '4'
+	_decimalDigit :  '0'-'9' •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','3'] -> S48
+	['4','4'] -> S221
+	['5','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("ident")
+Symbols classes: {['0','3'], ['4','4'], ['5','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S218{
+	repeated : 'r' 'e' 'p' 'e' 'a' 't' 'e' 'd' •
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("repeated")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S219{
+	reserved : 'r' 'e' 's' 'e' 'r' 'v' 'e' 'd' •
+	_letter : ( 'A'-'Z' |  'a'-'z') •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("reserved")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S220{
+	sfixed32 : 's' 'f' 'i' 'x' 'e' 'd' '3' '2' •
+	_decimalDigit :  '0'-'9' •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("sfixed32")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S221{
+	sfixed64 : 's' 'f' 'i' 'x' 'e' 'd' '6' '4' •
+	_decimalDigit :  '0'-'9' •
+	ident : _letter {_letter | _decimalDigit | '_'} •
+	ident : _letter {_letter | _decimalDigit | • '_'}
+	ident : _letter {_letter | • _decimalDigit | '_'}
+	ident : _letter {• _letter | _decimalDigit | '_'}
+	_decimalDigit : •  '0'-'9'
+	_letter :  'A'-'Z' | •  'a'-'z'
+	_letter : •  'A'-'Z' |  'a'-'z'
+}
+Transitions:
+	['0','9'] -> S48
+	['A','Z'] -> S18
+	['_','_'] -> S49
+	['a','z'] -> S18
+Action: Accept("sfixed64")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
