@@ -19,7 +19,7 @@ import (
 )
 
 func TestCheck(t *testing.T) {
-	err := ParseBytes([]byte(testSimple))
+	err := ParseBytes([]byte(testString))
 	if err != nil {
 		t.Fatalf("Failed with: %v", err)
 	}
@@ -47,7 +47,7 @@ message outer {
 `
 
 var testSimple = `
-syntax = "proto3";
+syntax = "proto3" ;
 
 import public "other.proto";
 

@@ -25,39 +25,60 @@ _octalDigit   : '0' - '7' ;
 _hexDigit     : '0' - '9' | 'A' - 'F' | 'a' - 'f' ;
 
 // Identifiers
-
-ident : _letter { _letter | _decimalDigit | '_' } ;
+_ident : _letter { _letter | _decimalDigit | '_' } ;
+ident : _ident ;
+_fullIdent : _ident { '.' _ident } ;
+fullIdent : _fullIdent ;
+_messageName : _ident ;
+messageName : _messageName ;
+_enumName : _ident ;
+enumName : _enumName ;
+fieldName : _ident ;
+oneofName : _ident ;
+mapName : _ident ;
+serviceName : _ident ;
+rpcName : _ident ;
+messageType : [ '.' ] { _ident '.' } _messageName ;
+enumType : [ '.' ] { _ident '.' } _enumName ;
 
 // Integer literals
 
 _decimalLit : ( '0' - '9' ) { _decimalDigit } ;
 _octalLit   : '0' { _octalDigit } ;
 _hexLit     : '0' ( 'x' | 'X' ) _hexDigit { _hexDigit } ;
-intLit      : _decimalLit | _octalLit | _hexLit ;
+_intLit      : _decimalLit | _octalLit | _hexLit ;
+intLit : _intLit ;
 
 // Floating-point literals
 
 _decimals : _decimalDigit { _decimalDigit } ;
 _exponent : ( 'e' | 'E' ) [ '+' | '-' ] _decimals ;
-floatLit  : ( _decimals '.' [ _decimals ] [ _exponent ] | _decimals _exponent | '.' _decimals [ _exponent ] ) | 'i' 'n' 'f' | 'n' 'a' 'n' ;
+_floatLit  : ( _decimals '.' [ _decimals ] [ _exponent ] | _decimals _exponent | '.' _decimals [ _exponent ] ) | 'i' 'n' 'f' | 'n' 'a' 'n' ;
 
 // Boolean
 
-boolLit : 't' 'r' 'u' 'e' | 'f' 'a' 'l' 's' 'e' ;
+_boolLit : 't' 'r' 'u' 'e' | 'f' 'a' 'l' 's' 'e' ;
 
 // String literals
 
-strLit      : ( '\'' { _charValue } '\'' ) | ( '"' { _charValue } '"' ) ;
-// removed | /[^\0\n\\]/ from _charValue
-_charValue  : _hexEscape | _octEscape | _charEscape ;
+_strLit     : ( '\'' { _charValue } '\'' ) | ( '"' { _charValue } '"' ) ;
+strLit      : _strLit ;
+// removed | /[^\0\n\\]/ from _charValue null value check ?
+_charValue  : . | _hexEscape | _octEscape | _charEscape ;
 _hexEscape  : '\\' ( 'x' | 'X' ) _hexDigit _hexDigit ;
 _octEscape  : '\\' _octalDigit _octalDigit _octalDigit ;
 _charEscape : '\\' ( 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\\' | '\'' | '"' ) ;
-quote       : '\'' | '"' ;
+_quote       : '\'' | '"' ;
+
+proto3 : _quote 'p' 'r' 'o' 't' 'o' '3' _quote ;
 
 // EmptyStatement
 
 emptyStatement : ';' ;
+
+// Constant
+// constant = fullIdent | ( [ "-" | "+" ] intLit ) | ( [ "-" | "+" ] floatLit ) | strLit | boolLit
+constant : _fullIdent | ( [ '-' | '+' ] _intLit ) | ( [ '-' | '+' ] _floatLit ) | _strLit | _boolLit ;
 
 // Comments
 
@@ -94,41 +115,37 @@ ProtoContent
 // The syntax statement is used to define the protobuf version.
 // syntax = "syntax" "=" quote "proto3" quote ";"
 Syntax
-	: "syntax" "=" quote "proto3" quote ";"										<< $0, nil >>
+	: "syntax" "=" proto3 ";"										<< $0, nil >>
 	;
 
 // Import Statement
 // The import statement is used to import another .proto's definitions.
 // import = "import" [ "weak" | "public" ] strLit ";"
 Import
-	: "import" ImportState strLit ";"											<< $0, nil >>
-	;
-
-ImportState
-	: "weak"																	<< $0, nil >>
-	| "public"																	<< $0, nil >>
+	: "import" "weak" strLit ";"												<< $0, nil >>
+	| "import" "public" strLit ";"												<< $0, nil >>
 	;
 
 // Package
 // The package specifier can be used to prevent name clashes between protocol message types.
 // package = "package" fullIdent ";"
 Package
-	: "package" FullIdent ";"													<< $0, nil >>
+	: "package" fullIdent ";"													<< $0, nil >>
 	;
 
 // Option
 // Options can be used in proto files, messages, enums and services. An option can be a protobuf defined option or a custom option. For more information, see Options in the language guide.
 // option = "option" optionName  "=" constant ";"
 Option
-	: "option" OptionName "=" Constant ";"										<< $0, nil >>
+	: "option" OptionName "=" constant ";"										<< $0, nil >>
 	;
 
 // optionName = ( ident | "(" fullIdent ")" ) { "." ident }
 OptionName
 	: ident																		<< $0, nil >>
 	| ident DotRepeatedIdents													<< $0, nil >>
-	| "(" FullIdent ")"															<< $0, nil >>
-	| "(" FullIdent ")" DotRepeatedIdents										<< $0, nil >>
+	| "(" fullIdent ")"															<< $0, nil >>
+	| "(" fullIdent ")" DotRepeatedIdents										<< $0, nil >>
 	;
 
 DotRepeatedIdents
@@ -162,8 +179,8 @@ Type
 	| "bool"																	<< $0, nil >>
 	| "string"																	<< $0, nil >>
 	| "bytes"																	<< $0, nil >>
-	| MessageType																<< $0, nil >>
-	| EnumType																	<< $0, nil >>
+	| messageType																<< $0, nil >>
+	| enumType																	<< $0, nil >>
 	;
 
 // fieldNumber = intLit;
@@ -175,10 +192,10 @@ FieldNumber
 // Each field has type, name and field number. It may have field options.
 // field = [ "repeated" ] type fieldName "=" fieldNumber [ "[" fieldOptions "]" ] ";"
 Field
-	: Type FieldName "=" FieldNumber ";"										<< $0, nil >>
-	| Type FieldName "=" FieldNumber "[" FieldOptions "]" ";"					<< $0, nil >>
-	| "repeated" Type FieldName "=" FieldNumber ";"								<< $0, nil >>
-	| "repeated" Type FieldName "=" FieldNumber "[" FieldOptions "]" ";"		<< $0, nil >>
+	: Type fieldName "=" FieldNumber ";"										<< $0, nil >>
+	| Type fieldName "=" FieldNumber "[" FieldOptions "]" ";"					<< $0, nil >>
+	| "repeated" Type fieldName "=" FieldNumber ";"								<< $0, nil >>
+	| "repeated" Type fieldName "=" FieldNumber "[" FieldOptions "]" ";"		<< $0, nil >>
 	;
 
 // fieldOptions = fieldOption { ","  fieldOption }
@@ -189,15 +206,15 @@ FieldOptions
 
 // fieldOption = optionName "=" constant
 FieldOption
-	: OptionName "=" Constant													<< $0, nil >>
+	: OptionName "=" constant													<< $0, nil >>
 	;
 
 // Oneof and oneof field
 // A oneof consists of oneof fields and a oneof name.
 // oneof = "oneof" oneofName "{" { oneofField | emptyStatement } "}"
 Oneof
-	: "oneof" OneofName "{" "}"													<< $0, nil >>
-	| "oneof" OneofName "{" RepeatedOneOfFieldOrEmpty "}"						<< $0, nil >>
+	: "oneof" oneofName "{" "}"													<< $0, nil >>
+	| "oneof" oneofName "{" RepeatedOneOfFieldOrEmpty "}"						<< $0, nil >>
 	;
 
 // oneofField = type fieldName "=" fieldNumber [ "[" fieldOptions "]" ] ";"
@@ -209,16 +226,16 @@ RepeatedOneOfFieldOrEmpty
 	;
 
 OneofField
-	: Type FieldName "=" FieldNumber ";"										<< $0, nil >>
-	| Type FieldName "=" FieldNumber "[" FieldOptions "]" ";"					<< $0, nil >>
+	: Type fieldName "=" FieldNumber ";"										<< $0, nil >>
+	| Type fieldName "=" FieldNumber "[" FieldOptions "]" ";"					<< $0, nil >>
 	;
 
 // Map field
 // A map field has a key type, value type, name, and field number. The key type can be any integral or string type.
 // mapField = "map" "<" keyType "," type ">" mapName "=" fieldNumber [ "[" fieldOptions "]" ] ";"
 MapField
-	: "map" "<" KeyType "," Type ">" MapName "=" FieldNumber ";"						<< $0, nil >>
-	| "map" "<" KeyType "," Type ">" MapName "=" FieldNumber "[" FieldOptions "]" ";"	<< $0, nil >>
+	: "map" "<" KeyType "," Type ">" mapName "=" FieldNumber ";"						<< $0, nil >>
+	| "map" "<" KeyType "," Type ">" mapName "=" FieldNumber "[" FieldOptions "]" ";"	<< $0, nil >>
 	;
 
 // keyType = "int32" | "int64" | "uint32" | "uint64" | "sint32" | "sint64" | "fixed32" | "fixed64" | "sfixed32" | "sfixed64" | "bool" | "string"
@@ -260,8 +277,8 @@ Range
 
 // fieldNames = fieldName { "," fieldName }
 FieldNames
-	: FieldName																	<< $0, nil >>
-	| FieldNames "," FieldName													<< $0, nil >>
+	: fieldName																	<< $0, nil >>
+	| FieldNames "," fieldName													<< $0, nil >>
 	;
 
 // Top Level definitions
@@ -269,7 +286,7 @@ FieldNames
 // The enum definition consists of a name and an enum body. The enum body can have options and enum fields. Enum definitions must start with enum value zero.
 // enum = "enum" enumName enumBody
 Enum
-	: "enum" EnumName EnumBody													<< $0, nil >>
+	: "enum" enumName EnumBody													<< $0, nil >>
 	;
 
 // enumBody = "{" { option | enumField | emptyStatement } "}"
@@ -294,15 +311,15 @@ EnumValueOptions
 
 // enumValueOption = optionName "=" constant
 EnumValueOption
-	: OptionName "=" Constant													<< $0, nil >>
+	: OptionName "=" constant													<< $0, nil >>
 	;
 
 // Message definition
 // A message consists of a message name and a message body. The message body can have fields, nested enum definitions, nested message definitions, options, oneofs, map fields, and reserved statements.
 // message = "message" messageName messageBody
 Message
-	: "message" MessageName "{" "}"												<< $0, nil >>
-	| "message" MessageName "{" MessageBody "}"								<< $0, nil >>
+	: "message" messageName "{" "}"												<< $0, nil >>
+	| "message" messageName "{" MessageBody "}"								<< $0, nil >>
 	;
 
 // messageBody = "{" { field | enum | message | option | oneof | mapField | reserved | emptyStatement } "}"
@@ -325,8 +342,8 @@ MessageContent
 // Service definition
 // service = "service" serviceName "{" { option | rpc | emptyStatement } "}"
 Service
-	: "service" ServiceName "{" "}"												<< $0, nil >>
-	| "service" ServiceName "{" ServiceBodies "}"								<< $0, nil >>
+	: "service" serviceName "{" "}"												<< $0, nil >>
+	| "service" serviceName "{" ServiceBodies "}"								<< $0, nil >>
 	;
 
 ServiceBodies
@@ -342,10 +359,10 @@ ServiceBody
 
 // rpc = "rpc" rpcName "(" [ "stream" ] messageType ")" "returns" "(" [ "stream" ] messageType ")" (( "{" {option | emptyStatement } "}" ) | ";")
 Rpc
-	: "rpc" RpcName "(" MessageType ")" "returns" "(" MessageType ")" RpcBodies						<< $0, nil >>
-	| "rpc" RpcName "(" "stream" MessageType ")" "returns" "(" MessageType ")" RpcBodies			<< $0, nil >>
-	| "rpc" RpcName "(" MessageType ")" "returns" "(" "stream" MessageType ")" RpcBodies			<< $0, nil >>
-	| "rpc" RpcName "(" "stream" MessageType ")" "returns" "(" "stream" MessageType ")" RpcBodies	<< $0, nil >>
+	: "rpc" rpcName "(" messageType ")" "returns" "(" messageType ")" RpcBodies						<< $0, nil >>
+	| "rpc" rpcName "(" "stream" messageType ")" "returns" "(" messageType ")" RpcBodies			<< $0, nil >>
+	| "rpc" rpcName "(" messageType ")" "returns" "(" "stream" messageType ")" RpcBodies			<< $0, nil >>
+	| "rpc" rpcName "(" "stream" messageType ")" "returns" "(" "stream" messageType ")" RpcBodies	<< $0, nil >>
 	;
 // rpc = "rpc" rpcName "(" [ "stream" ] messageType ")" "returns" "(" [ "stream" ] messageType ")"
 //       (( "{" {option | emptyStatement } "}" ) | ";")
@@ -360,78 +377,4 @@ RpcBody
 	| emptyStatement															<< $0, nil >>
 	| RpcBody Option															<< $0, nil >>
 	| RpcBody emptyStatement													<< $0, nil >>
-	;
-
-// Identifiers
-// fullIdent = ident { "." ident }
-FullIdent
-	: ident																		<< $0, nil >>
-	| FullIdent "." ident														<< $0, nil >>
-	;
-
-// messageName = ident
-MessageName
-	: ident																		<< $0, nil >>
-	;
-
-// enumName = ident
-EnumName
-	: ident																		<< $0, nil >>
-	;
-
-// fieldName = ident
-FieldName
-	: ident																		<< $0, nil >>
-	;
-
-// oneofName = ident
-OneofName
-	: ident																		<< $0, nil >>
-	;
-
-// mapName = ident
-MapName
-	: ident																		<< $0, nil >>
-	;
-
-// serviceName = ident
-ServiceName
-	: ident																		<< $0, nil >>
-	;
-
-// rpcName = ident
-RpcName
-	: ident																		<< $0, nil >>
-	;
-
-// messageType = [ "." ] { ident "." } messageName
-MessageType
-	: MessageName																<< $0, nil >>
-	| Idents MessageName														<< $0, nil >>
-	| "." MessageName															<< $0, nil >>
-	| "." Idents MessageName													<< $0, nil >>
-	;
-
-Idents
-	: ident "."																	<< $0, nil >>
-	| Idents ident "."															<< $0, nil >>
-	;
-
-// enumType = [ "." ] { ident "." } enumName
-EnumType
-	: EnumName																	<< $0, nil >>
-	| "." EnumName																<< $0, nil >>
-	| "." Idents EnumName														<< $0, nil >>
-	;
-
-// Constant
-// constant = fullIdent | ( [ "-" | "+" ] intLit ) | ( [ "-" | "+" ] floatLit ) | strLit | boolLit
-Constant
-	: FullIdent																	<< $0, nil >>
-	| "-" intLit																<< $0, nil >>
-	| "+" intLit																<< $0, nil >>
-	| "-" floatLit																<< $0, nil >>
-	| "+" floatLit																<< $0, nil >>
-	| strLit																	<< $0, nil >>
-	| boolLit																	<< $0, nil >>
 	;

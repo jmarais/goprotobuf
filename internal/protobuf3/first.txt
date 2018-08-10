@@ -28,9 +28,8 @@ Syntax: {
 Import: {
 	import
 }
-ImportState: {
-	public
-	weak
+String: {
+	strLit
 }
 Package: {
 	package
@@ -51,16 +50,16 @@ TopLevelDef: {
 	service
 }
 Type: {
-	.
 	bool
 	bytes
 	double
+	enumType
 	fixed32
 	fixed64
 	float
-	ident
 	int32
 	int64
+	messageType
 	sfixed32
 	sfixed64
 	sint32
@@ -73,16 +72,16 @@ FieldNumber: {
 	intLit
 }
 Field: {
-	.
 	bool
 	bytes
 	double
+	enumType
 	fixed32
 	fixed64
 	float
-	ident
 	int32
 	int64
+	messageType
 	repeated
 	sfixed32
 	sfixed64
@@ -104,17 +103,17 @@ Oneof: {
 	oneof
 }
 RepeatedOneOfFieldOrEmpty: {
-	.
 	bool
 	bytes
 	double
 	emptyStatement
+	enumType
 	fixed32
 	fixed64
 	float
-	ident
 	int32
 	int64
+	messageType
 	sfixed32
 	sfixed64
 	sint32
@@ -124,16 +123,16 @@ RepeatedOneOfFieldOrEmpty: {
 	uint64
 }
 OneofField: {
-	.
 	bool
 	bytes
 	double
+	enumType
 	fixed32
 	fixed64
 	float
-	ident
 	int32
 	int64
+	messageType
 	sfixed32
 	sfixed64
 	sint32
@@ -169,7 +168,7 @@ Range: {
 	intLit
 }
 FieldNames: {
-	ident
+	fieldName
 }
 Enum: {
 	enum
@@ -192,20 +191,20 @@ Message: {
 	message
 }
 MessageBody: {
-	.
 	bool
 	bytes
 	double
 	emptyStatement
 	enum
+	enumType
 	fixed32
 	fixed64
 	float
-	ident
 	int32
 	int64
 	map
 	message
+	messageType
 	oneof
 	option
 	repeated
@@ -219,20 +218,20 @@ MessageBody: {
 	uint64
 }
 MessageContent: {
-	.
 	bool
 	bytes
 	double
 	emptyStatement
 	enum
+	enumType
 	fixed32
 	fixed64
 	float
-	ident
 	int32
 	int64
 	map
 	message
+	messageType
 	oneof
 	option
 	repeated
@@ -268,46 +267,4 @@ RpcBodies: {
 RpcBody: {
 	emptyStatement
 	option
-}
-FullIdent: {
-	ident
-}
-MessageName: {
-	ident
-}
-EnumName: {
-	ident
-}
-FieldName: {
-	ident
-}
-OneofName: {
-	ident
-}
-MapName: {
-	ident
-}
-ServiceName: {
-	ident
-}
-RpcName: {
-	ident
-}
-MessageType: {
-	.
-	ident
-}
-Idents: {
-	ident
-}
-EnumType: {
-	.
-	ident
-}
-Constant: {
-	+
-	-
-	boolLit
-	ident
-	strLit
 }
